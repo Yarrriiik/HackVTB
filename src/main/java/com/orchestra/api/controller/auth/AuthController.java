@@ -13,9 +13,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// AuthController.java
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -31,37 +34,46 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
-        if (req.name() == null || req.email() == null || req.password() == null || req.role() == null)
+        if (req.name() == null || req.email() == null || req.password() == null || req.role() == null) {
             return ResponseEntity.badRequest().body("Missing fields");
-        if (!req.password().equals(req.confirmPassword()))
+        }
+        if (!req.password().equals(req.confirmPassword())) {
             return ResponseEntity.badRequest().body("Passwords do not match");
-        if (users.findByEmail(req.email()).isPresent())
+        }
+        if (users.findByEmail(req.email()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
-        UserEntity u = new UserEntity();
-        u.setName(req.name());
-        u.setEmail(req.email().toLowerCase());
-        u.setPassword(encoder.encode(req.password()));
-        u.setRole(req.role().toUpperCase());
-        users.save(u);
-        return ResponseEntity.ok(new UserResponse(u.getId(), u.getName(), u.getEmail(), u.getRole()));
+        }
+
+        UserEntity user = new UserEntity();
+        user.setName(req.name());
+        user.setEmail(req.email().toLowerCase());
+        user.setPassword(encoder.encode(req.password()));
+        user.setRole(req.role().toUpperCase());
+        users.save(user);
+
+        return ResponseEntity.ok(new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole()));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.email(), req.password()));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        UserEntity u = users.findByEmail(req.email()).orElseThrow();
-        return ResponseEntity.ok(new UserResponse(u.getId(), u.getName(), u.getEmail(), u.getRole()));
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(req.email(), req.password())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserEntity user = users.findByEmail(req.email()).orElseThrow();
+        return ResponseEntity.ok(new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole()));
     }
 
     @GetMapping("/me")
     public ResponseEntity<?> me() {
-        Authentication a = SecurityContextHolder.getContext().getAuthentication();
-        if (a == null || !a.isAuthenticated() || "anonymousUser".equals(a.getPrincipal()))
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getPrincipal())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        String email = a.getName();
-        UserEntity u = users.findByEmail(email).orElseThrow();
-        return ResponseEntity.ok(new UserResponse(u.getId(), u.getName(), u.getEmail(), u.getRole()));
+        }
+
+        UserEntity user = users.findByEmail(authentication.getName()).orElseThrow();
+        return ResponseEntity.ok(new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole()));
     }
 }

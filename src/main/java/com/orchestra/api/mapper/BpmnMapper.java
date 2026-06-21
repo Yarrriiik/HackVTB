@@ -1,11 +1,17 @@
 package com.orchestra.api.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orchestra.api.dto.response.BpmnDiagramResponse;
 import com.orchestra.api.dto.response.StepResponse;
 import com.orchestra.api.dto.response.TransitionResponse;
 import com.orchestra.api.entity.ProcessDiagramEntity;
+import com.orchestra.api.entity.ProcessStepEntity;
+import com.orchestra.api.entity.ProcessTransitionEntity;
 import com.orchestra.api.model.core.BpmnElement;
 import com.orchestra.api.model.project.BpmnDiagram;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,16 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.orchestra.api.entity.ProcessStepEntity;
-import com.orchestra.api.entity.ProcessTransitionEntity;
-
 @Component
 public class BpmnMapper {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ProcessDiagramEntity toEntity(BpmnDiagram model) {
         UUID id = model.getId() != null ? model.getId() : UUID.randomUUID();
@@ -41,48 +41,44 @@ public class BpmnMapper {
                 new ArrayList<>()
         );
 
-
         Map<String, ProcessStepEntity> stepEntityMap = new HashMap<>();
-            for (BpmnElement step : model.getSteps()) {
-                ProcessStepEntity stepEntity = new ProcessStepEntity(
-                        UUID.randomUUID(),
-                        diagramEntity,
-                        step.getStepId(),
-                        step.getName(),
-                        step.getActorFrom(),
-                        step.getActorTo(),
-                        step.getAction(),
-                        serializeNextSteps(step.getNextSteps()),
-                        new ArrayList<>(),
-                        new ArrayList<>(),
-                        new ArrayList<>(),
-                        new ArrayList<>()
-                );
-                stepEntityMap.put(step.getStepId(), stepEntity);
-                diagramEntity.getSteps().add(stepEntity);
-            }
-
-            // 2. Map transitions
-            for (ProcessStepEntity fromStep : stepEntityMap.values()) {
-                List<String> nextIds = deserializeNextSteps(fromStep.getNextSteps());
-                for (String nextId : nextIds) {
-                    ProcessStepEntity toStep = stepEntityMap.get(nextId);
-                    if (toStep != null) {
-                        ProcessTransitionEntity transition = new ProcessTransitionEntity(
-                                UUID.randomUUID(),
-                                diagramEntity,
-                                fromStep,
-                                toStep
-                        );
-                        diagramEntity.getTransitions().add(transition);
-                    }
-                }
-            }
-
-            return diagramEntity;
+        for (BpmnElement step : model.getSteps()) {
+            ProcessStepEntity stepEntity = new ProcessStepEntity(
+                    UUID.randomUUID(),
+                    diagramEntity,
+                    step.getStepId(),
+                    step.getName(),
+                    step.getActorFrom(),
+                    step.getActorTo(),
+                    step.getAction(),
+                    serializeNextSteps(step.getNextSteps()),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    new ArrayList<>()
+            );
+            stepEntityMap.put(step.getStepId(), stepEntity);
+            diagramEntity.getSteps().add(stepEntity);
         }
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+        for (ProcessStepEntity fromStep : stepEntityMap.values()) {
+            List<String> nextIds = deserializeNextSteps(fromStep.getNextSteps());
+            for (String nextId : nextIds) {
+                ProcessStepEntity toStep = stepEntityMap.get(nextId);
+                if (toStep != null) {
+                    ProcessTransitionEntity transition = new ProcessTransitionEntity(
+                            UUID.randomUUID(),
+                            diagramEntity,
+                            fromStep,
+                            toStep
+                    );
+                    diagramEntity.getTransitions().add(transition);
+                }
+            }
+        }
+
+        return diagramEntity;
+    }
 
     private String serializeNextSteps(List<String> nextSteps) {
         if (nextSteps == null || nextSteps.isEmpty()) {
@@ -91,7 +87,6 @@ public class BpmnMapper {
         try {
             return objectMapper.writeValueAsString(nextSteps);
         } catch (JsonProcessingException e) {
-            // Fallback to simple JSON array
             return "[]";
         }
     }
@@ -103,9 +98,7 @@ public class BpmnMapper {
         try {
             return objectMapper.readValue(nextSteps, new TypeReference<List<String>>() {});
         } catch (JsonProcessingException e) {
-            // Fallback: try to parse as comma-separated string
             if (nextSteps.startsWith("[") && nextSteps.endsWith("]")) {
-                // Remove brackets and split
                 String content = nextSteps.substring(1, nextSteps.length() - 1);
                 if (content.isEmpty()) {
                     return List.of();
@@ -147,14 +140,11 @@ public class BpmnMapper {
         );
     }
 
-    private TransitionResponse toTransitionResponse(ProcessTransitionEntity t) {
+    private TransitionResponse toTransitionResponse(ProcessTransitionEntity transition) {
         return new TransitionResponse(
-                t.getFromStep().getStepId(),
-                t.getToStep().getStepId(),
-                t.getCondition()
+                transition.getFromStep().getStepId(),
+                transition.getToStep().getStepId(),
+                transition.getCondition()
         );
     }
-
-
-
 }

@@ -1,200 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="966b2b9a-5903-4e5a-9361-ce324917676d" name="Changes" comment="new update:&#10;ApiResponse&#10;application.yml&#10;init.sql&#10;pom.xml&#10;Role.java&#10;SecurityConfig.java&#10;User.java&#10;UserRole.java&#10;UserRoleId.Java&#10;UserSession.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/SequenceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/OpenApiUploadResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/SequenceDiagramResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/OpenApiSpecEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/SequenceDiagramRawEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/parser/SequenceParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/entity/OpenApiSpecRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/entity/SequenceDiagramRawRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/SequenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/init4.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+    <list default="true" id="b26bbd25-d93c-447a-a6a8-99ebf392c702" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/google-java-format.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_for_tests/openapi.json" beforeDir="false" afterPath="$PROJECT_DIR$/data_for_tests/openapi.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_for_tests/openapi.yml" beforeDir="false" afterPath="$PROJECT_DIR$/data_for_tests/openapi.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/init.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/1.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/OpenApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/OpenApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/auth/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/auth/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/auth/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/BpmnController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/BpmnController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/ProjectController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/SequenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/project/SequenceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/system/HealthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/system/HealthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/system/SystemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/system/SystemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/test/ExecutionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/test/ReportController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/controller/test/ScenarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/request/ProjectCreateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/request/TestExecutionRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/ApiResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/ExecutionResultResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/OpenApiUploadResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/OpenApiUploadResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/ProjectResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/SequenceDiagramResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/SequenceDiagramResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/StepResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/StepResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/TransitionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/dto/response/TransitionResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/ProcessTransitionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/ProcessTransitionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/SequenceDiagramRawEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/SequenceDiagramRawEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/mapper/BpmnMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/mapper/BpmnMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/mapper/OpenApiMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/mapper/OpenApiMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/mapper/SequenceMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/core/Endpoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/core/ProcessEndpointMapping.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/core/TestScenario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/execution/ExecutionError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/execution/ExecutionStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/execution/StepExecutionDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/execution/TestExecution.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/project/OpenApiSpec.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/project/Project.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/project/ProjectMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/project/SequenceDiagram.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/user/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/user/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/user/UserRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/user/UserRoleId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/model/user/UserSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/parser/BpmnParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/parser/BpmnParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/entity/SequenceDiagramRawRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/entity/SequenceDiagramRawRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/execution/ExecutionErrorRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/execution/ExecutionStepRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/execution/TestExecutionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/project/BpmnDiagramRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/project/OpenApiSpecRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/project/ProjectRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/user/RoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/repository/user/UserSessionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/analysis/BpmnAnalyzerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/analysis/OpenApiParserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/analysis/ScenarioOrchestratorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/execution/ExecutionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/execution/ReportingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/execution/TestRunnerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/integration/ExternalApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/integration/MlIntegrationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/BpmnService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/BpmnService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/OpenApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/OpenApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/ProjectService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/SequenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/project/SequenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/user/AppUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/user/AppUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/user/AuthService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/user/SessionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/orchestra/api/service/user/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="branchyarriiik" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Yarrriiik&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Yarrriiik"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Dealtors/HackVTB.git&quot;,
-    &quot;accountId&quot;: &quot;9e66eaa7-2c8e-4524-acb8-3d2237a4788e&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Dealtors/HackVTB.git",
+    "accountId": "7454b25b-8cb2-4eae-928f-04c5d02a800c"
   }
-}</component>
-  <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;isMigrated&quot;: true
-}</component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 4
-}</component>
-  <component name="ProjectId" id="34n3DCHnVjrcmixJBkEwgvOaRgH" />
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="3FSDCtoY1QgtOlvlmdwFqqZMIjM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Unnamed (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/yarriiik/PycharmProjects/HackVTB&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Console&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "branchyarriiik",
+    "last_opened_file_path": "C:/Users/Администратор/PycharmProjects/HackVTB"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.orchestra.api.parser" />
-      <recent name="com.orchestra.api.dto.response" />
-      <recent name="com.orchestra.api.repository.entity" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Spring Boot.Application">
-    <configuration name="Unnamed (1)" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.orchestra.api.Application" />
-      <module name="orchestra-api" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.orchestra.api.Application" />
-      <module name="orchestra-api" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="orchestra-api" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.orchestra.api.Application" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.orchestra.api.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.Unnamed" />
-      <item itemvalue="Application.Unnamed (1)" />
-      <item itemvalue="Spring Boot.Application" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Spring Boot.Application" />
-        <item itemvalue="Spring Boot.Application" />
-        <item itemvalue="Spring Boot.Application" />
-      </list>
-    </recent_temporary>
-  </component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+        <option value="bundled-python-sdk-4762d8aabb82-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.30387.173" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="966b2b9a-5903-4e5a-9361-ce324917676d" name="Changes" comment="" />
-      <created>1761835388828</created>
+      <changelist id="b26bbd25-d93c-447a-a6a8-99ebf392c702" name="Changes" comment="" />
+      <created>1782059452505</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1761835388828</updated>
-      <workItem from="1761887783081" duration="813000" />
-      <workItem from="1761888607387" duration="10625000" />
-      <workItem from="1762006786147" duration="12000" />
-      <workItem from="1762009800882" duration="164000" />
-      <workItem from="1762082425331" duration="1751000" />
-      <workItem from="1762084232484" duration="1365000" />
-      <workItem from="1762085608280" duration="710000" />
-      <workItem from="1762087141115" duration="4799000" />
+      <updated>1782059452505</updated>
     </task>
-    <task id="LOCAL-00001" summary="new import:&#10;ApiResponse&#10;CorsConfig&#10;HealthController&#10;SwaggerConfig">
-      <option name="closed" value="true" />
-      <created>1761890315929</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1761890315929</updated>
-    </task>
-    <task id="LOCAL-00002" summary="new update:&#10;ApiResponse&#10;application.yml&#10;init.sql&#10;pom.xml&#10;Role.java&#10;SecurityConfig.java&#10;User.java&#10;UserRole.java&#10;UserRoleId.Java&#10;UserSession.java">
-      <option name="closed" value="true" />
-      <created>1761898777423</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1761898777423</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -207,7 +157,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="branchyarriiik" />
                       </list>
                     </value>
                   </entry>
@@ -218,10 +168,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="new import:&#10;ApiResponse&#10;CorsConfig&#10;HealthController&#10;SwaggerConfig" />
-    <MESSAGE value="new update:&#10;ApiResponse&#10;application.yml&#10;init.sql&#10;pom.xml&#10;Role.java&#10;SecurityConfig.java&#10;User.java&#10;UserRole.java&#10;UserRoleId.Java&#10;UserSession.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="new update:&#10;ApiResponse&#10;application.yml&#10;init.sql&#10;pom.xml&#10;Role.java&#10;SecurityConfig.java&#10;User.java&#10;UserRole.java&#10;UserRoleId.Java&#10;UserSession.java" />
   </component>
 </project>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orchestra API Demo</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="page-shell">
+    <header class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Hackathon Prototype</p>
+            <h1>Orchestra API</h1>
+            <p class="lead">
+                Backend demo for parsing BPMN, sequence diagrams, and OpenAPI specs into normalized testing metadata.
+            </p>
+            <div class="hero-links">
+                <a class="link-button primary" href="./swagger-ui/index.html" target="_blank" rel="noreferrer">Open Swagger UI</a>
+                <a class="link-button secondary" href="#result-output">Jump to Output</a>
+            </div>
+        </div>
+        <div class="hero-panel">
+            <div class="metric">
+                <span class="metric-label">Context path</span>
+                <strong>/api</strong>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Demo endpoints</span>
+                <strong>4 public routes</strong>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Storage</span>
+                <strong>PostgreSQL</strong>
+            </div>
+        </div>
+    </header>
+
+    <section class="grid two-up">
+        <article class="card">
+            <div class="card-header">
+                <h2>System status</h2>
+                <button class="ghost-button" id="refresh-status" type="button">Refresh</button>
+            </div>
+            <div id="health-status" class="status-pill">Loading...</div>
+            <pre id="system-info" class="json-box"></pre>
+        </article>
+
+        <article class="card">
+            <h2>Sample inputs</h2>
+            <ul class="sample-list">
+                <li><code>data_for_tests/openapi.json</code></li>
+                <li><code>data_for_tests/openapi.yml</code></li>
+                <li><code>data_for_tests/01_bonus_payment.puml</code></li>
+            </ul>
+            <p class="muted">
+                Use these files to test the public upload flow after starting PostgreSQL and the Spring Boot app.
+            </p>
+        </article>
+    </section>
+
+    <section class="grid three-up">
+        <article class="card">
+            <h2>BPMN upload</h2>
+            <form class="upload-form" data-endpoint="./bpmn/upload" data-method="POST">
+                <label for="bpmn-file">BPMN file</label>
+                <input id="bpmn-file" name="file" type="file" accept=".bpmn,.xml" required>
+                <button type="submit">Parse BPMN</button>
+            </form>
+        </article>
+
+        <article class="card">
+            <h2>Sequence upload</h2>
+            <form class="upload-form" data-endpoint="./sequence/uploadSequence" data-method="POST">
+                <label for="sequence-file">PlantUML file</label>
+                <input id="sequence-file" name="file" type="file" accept=".puml,.txt" required>
+                <label for="sequence-name">Name</label>
+                <input id="sequence-name" name="name" type="text" placeholder="bonus-payment-flow">
+                <input name="format" type="hidden" value="PLANTUML">
+                <button type="submit">Parse Sequence</button>
+            </form>
+        </article>
+
+        <article class="card">
+            <h2>OpenAPI upload</h2>
+            <form class="upload-form" data-endpoint="./openapi/upload" data-method="POST">
+                <label for="openapi-file">Spec file</label>
+                <input id="openapi-file" name="file" type="file" accept=".json,.yaml,.yml" required>
+                <label for="openapi-name">Name</label>
+                <input id="openapi-name" name="name" type="text" placeholder="bank-api">
+                <button type="submit">Parse OpenAPI</button>
+            </form>
+        </article>
+    </section>
+
+    <section class="card">
+        <div class="card-header">
+            <h2>Response preview</h2>
+            <button class="ghost-button" id="clear-output" type="button">Clear</button>
+        </div>
+        <pre id="result-output" class="json-box large">Submit any form to inspect the JSON response here.</pre>
+    </section>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>

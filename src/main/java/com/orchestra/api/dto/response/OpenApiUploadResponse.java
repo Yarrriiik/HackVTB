@@ -1,4 +1,3 @@
-// src/main/java/com/orchestra/api/dto/response/OpenApiUploadResponse.java
 package com.orchestra.api.dto.response;
 
 import java.util.Map;

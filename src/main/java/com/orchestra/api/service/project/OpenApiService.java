@@ -6,9 +6,9 @@ import com.orchestra.api.entity.OpenApiSpecEntity;
 import com.orchestra.api.mapper.OpenApiMapper;
 import com.orchestra.api.repository.entity.OpenApiSpecRepository;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,27 +38,24 @@ public class OpenApiService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empty file");
         }
 
-        // 1) Читаем исходный текст (это может быть и YAML, и JSON)
-        final String txt;
+        final String sourceText;
         try {
-            txt = new String(file.getBytes(), StandardCharsets.UTF_8);
+            sourceText = new String(file.getBytes(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot read file");
         }
 
-        // 2) Парсим как OpenAPI (поддерживает YAML/JSON)
-        ParseOptions opts = new ParseOptions();
-        opts.setResolve(false);
-        SwaggerParseResult pr = new OpenAPIV3Parser().readContents(txt, null, opts);
-        OpenAPI openAPI = pr.getOpenAPI();
+        ParseOptions options = new ParseOptions();
+        options.setResolve(false);
+        SwaggerParseResult parseResult = new OpenAPIV3Parser().readContents(sourceText, null, options);
+        OpenAPI openAPI = parseResult.getOpenAPI();
         if (openAPI == null || openAPI.getPaths() == null || openAPI.getPaths().isEmpty()) {
-            String msg = (pr.getMessages() != null && !pr.getMessages().isEmpty())
-                    ? String.join("; ", pr.getMessages())
+            String message = (parseResult.getMessages() != null && !parseResult.getMessages().isEmpty())
+                    ? String.join("; ", parseResult.getMessages())
                     : "OpenAPI parse failed";
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, msg);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
 
-        // 3) Нормализуем в JSON, чтобы класть в JSONB независимо от входного формата
         final String normalizedJson;
         try {
             normalizedJson = json.writeValueAsString(openAPI);
@@ -66,17 +63,15 @@ public class OpenApiService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot serialize OpenAPI to JSON");
         }
 
-        // 4) Сохраняем сырьё (assigned UUID)
         UUID id = UUID.randomUUID();
-        OpenApiSpecEntity e = new OpenApiSpecEntity();
-        e.setId(id);
-        e.setName(name != null ? name : file.getOriginalFilename());
-        e.setFileName(file.getOriginalFilename());
-        e.setSpecJson(normalizedJson); // всегда валидный JSON для JSONB
-        e.setCreatedAt(LocalDateTime.now());
-        specRepo.save(e);
+        OpenApiSpecEntity entity = new OpenApiSpecEntity();
+        entity.setId(id);
+        entity.setName(name != null ? name : file.getOriginalFilename());
+        entity.setFileName(file.getOriginalFilename());
+        entity.setSpecJson(normalizedJson);
+        entity.setCreatedAt(LocalDateTime.now());
+        specRepo.save(entity);
 
-        // 5) Формируем ответ
         return mapper.toResponse(id, openAPI);
     }
 }

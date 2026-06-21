@@ -31,11 +31,13 @@ public class SequenceService {
     private final ProcessTransitionRepository transitionRepo;
     private final SequenceParser parser;
 
-    public SequenceService(SequenceDiagramRawRepository rawRepo,
-                           ProcessDiagramRepository diagramRepo,
-                           ProcessStepRepository stepRepo,
-                           ProcessTransitionRepository transitionRepo,
-                           SequenceParser parser) {
+    public SequenceService(
+            SequenceDiagramRawRepository rawRepo,
+            ProcessDiagramRepository diagramRepo,
+            ProcessStepRepository stepRepo,
+            ProcessTransitionRepository transitionRepo,
+            SequenceParser parser
+    ) {
         this.rawRepo = rawRepo;
         this.diagramRepo = diagramRepo;
         this.stepRepo = stepRepo;
@@ -45,15 +47,16 @@ public class SequenceService {
 
     @Transactional
     public SequenceDiagramResponse uploadSequence(String name, String format, MultipartFile file) throws Exception {
-        if (file == null || file.isEmpty()) throw new IllegalArgumentException("Empty file");
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("Empty file");
+        }
 
         String effectiveName = (name != null && !name.isBlank())
                 ? name
                 : (file.getOriginalFilename() != null && !file.getOriginalFilename().isBlank()
-                    ? file.getOriginalFilename()
-                    : "Sequence");
+                ? file.getOriginalFilename()
+                : "Sequence");
 
-        // 1) Save raw
         UUID rawId = UUID.randomUUID();
         SequenceDiagramRawEntity raw = new SequenceDiagramRawEntity();
         raw.setId(rawId);
@@ -63,57 +66,54 @@ public class SequenceService {
         raw.setCreatedAt(LocalDateTime.now());
         rawRepo.save(raw);
 
-        // 2) Parse
         SequenceParser.ParsedSequence parsed = parser.parse(raw.getRawContent());
 
-        // 3) Persist into unified process_* model (type=SEQUENCE)
-        UUID dId = UUID.randomUUID();
-        ProcessDiagramEntity d = new ProcessDiagramEntity();
-        d.setId(dId);
-        d.setName(effectiveName);
-        d.setType("SEQUENCE");
-        d.setStatus("READY");
-        d.setCreatedAt(LocalDateTime.now());
-        d.setUpdatedAt(LocalDateTime.now());
-        d.setSteps(new ArrayList<>());
-        d.setTransitions(new ArrayList<>());
-        diagramRepo.save(d);
+        UUID diagramId = UUID.randomUUID();
+        ProcessDiagramEntity diagram = new ProcessDiagramEntity();
+        diagram.setId(diagramId);
+        diagram.setName(effectiveName);
+        diagram.setType("SEQUENCE");
+        diagram.setStatus("READY");
+        diagram.setCreatedAt(LocalDateTime.now());
+        diagram.setUpdatedAt(LocalDateTime.now());
+        diagram.setSteps(new ArrayList<>());
+        diagram.setTransitions(new ArrayList<>());
+        diagramRepo.save(diagram);
 
-        Map<String, ProcessStepEntity> byStepId = new LinkedHashMap<>();
-        for (SequenceDiagramResponse.Step s : parsed.steps()) {
-            ProcessStepEntity e = new ProcessStepEntity();
-            e.setId(UUID.randomUUID());
-            e.setDiagram(d);
-            e.setStepId(s.stepId);
-            e.setName(s.name);
-            e.setActorFrom(s.from);
-            e.setActorTo(s.to);
-            e.setAction(s.action);
-            e.setNextSteps(new ObjectMapper().writeValueAsString(s.next)); // jsonb text
-            stepRepo.save(e);
-            byStepId.put(s.stepId, e);
-            d.getSteps().add(e);
+        Map<String, ProcessStepEntity> stepsById = new LinkedHashMap<>();
+        for (SequenceDiagramResponse.Step step : parsed.steps()) {
+            ProcessStepEntity entity = new ProcessStepEntity();
+            entity.setId(UUID.randomUUID());
+            entity.setDiagram(diagram);
+            entity.setStepId(step.stepId);
+            entity.setName(step.name);
+            entity.setActorFrom(step.from);
+            entity.setActorTo(step.to);
+            entity.setAction(step.action);
+            entity.setNextSteps(new ObjectMapper().writeValueAsString(step.next));
+            stepRepo.save(entity);
+            stepsById.put(step.stepId, entity);
+            diagram.getSteps().add(entity);
         }
-        for (SequenceDiagramResponse.Step s : parsed.steps()) {
-            for (String nxt : s.next) {
-                ProcessTransitionEntity t = new ProcessTransitionEntity();
-                t.setId(UUID.randomUUID());
-                t.setDiagram(d);
-                t.setFromStep(byStepId.get(s.stepId));
-                t.setToStep(byStepId.get(nxt));
-                transitionRepo.save(t);
-                d.getTransitions().add(t);
+
+        for (SequenceDiagramResponse.Step step : parsed.steps()) {
+            for (String nextStepId : step.next) {
+                ProcessTransitionEntity transition = new ProcessTransitionEntity();
+                transition.setId(UUID.randomUUID());
+                transition.setDiagram(diagram);
+                transition.setFromStep(stepsById.get(step.stepId));
+                transition.setToStep(stepsById.get(nextStepId));
+                transitionRepo.save(transition);
+                diagram.getTransitions().add(transition);
             }
         }
 
-        // 4) Build response
-        SequenceDiagramResponse resp = new SequenceDiagramResponse();
-        resp.setId(dId);
-        resp.setName(d.getName());
-        resp.setType("SEQUENCE");
-        resp.setActors(parsed.actors());
-        resp.setSteps(parsed.steps());
-        return resp;
+        SequenceDiagramResponse response = new SequenceDiagramResponse();
+        response.setId(diagramId);
+        response.setName(diagram.getName());
+        response.setType("SEQUENCE");
+        response.setActors(parsed.actors());
+        response.setSteps(parsed.steps());
+        return response;
     }
 }
-

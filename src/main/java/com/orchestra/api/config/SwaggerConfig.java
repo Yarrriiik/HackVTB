@@ -1,9 +1,9 @@
 package com.orchestra.api.config;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
@@ -13,7 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Orchestra API")
-                        .description("Платформа для автоматического тестирования бизнес-процессов")
+                        .description("Prototype backend for BPMN, sequence, and OpenAPI-driven test scenario generation.")
                         .version("v1.0.0"));
     }
 }

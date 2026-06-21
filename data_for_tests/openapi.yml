@@ -16,7 +16,7 @@ paths:
         \ у организаторов хакатона:\n- `client_id` — код вашей команды (например:\
         \ team200)\n- `client_secret` — ваш секретный ключ (API key)\n\n### Пример\
         \ запроса:\n\n```bash\n# Получить токен для запросов к VBank\nPOST https://vbank.open.bankingapi.ru/auth/bank-token\n\
-        ?client_id=team200\n&client_secret=5OAaa4DYzYKfnOU6zbR34ic5qMm7VSMB\n\n# Ответ:\n\
+        ?client_id=team200\n&client_secret=YOUR_SECRET\n\n# Ответ:\n\
         {\n  \"access_token\": \"eyJ...\",\n  \"token_type\": \"bearer\",\n  \"client_id\"\
         : \"team200\",\n  \"expires_in\": 86400\n}\n```\n\n### Использование токена:\n\
         \n```bash\nGET https://vbank.open.bankingapi.ru/accounts\nHeaders:\n  Authorization:\
@@ -44,7 +44,7 @@ paths:
           description: Secret команды от организаторов
           title: Client Secret
         description: Secret команды от организаторов
-        example: 5OAaa4DYzYKfnOU6zbR34ic5qMm7VSMB
+        example: YOUR_SECRET
       responses:
         '200':
           description: Successful Response

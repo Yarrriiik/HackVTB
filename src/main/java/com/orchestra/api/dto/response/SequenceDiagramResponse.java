@@ -1,4 +1,3 @@
-// src/main/java/com/orchestra/api/dto/response/SequenceDiagramResponse.java
 package com.orchestra.api.dto.response;
 
 import java.util.List;
@@ -7,7 +6,7 @@ import java.util.UUID;
 public class SequenceDiagramResponse {
     private UUID id;
     private String name;
-    private String type;           // "SEQUENCE"
+    private String type;
     private List<String> actors;
     private List<Step> steps;
 

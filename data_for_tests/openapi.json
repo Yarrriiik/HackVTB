@@ -12,7 +12,7 @@
           "0 Аутентификация вызывающей системы"
         ],
         "summary": "Create Bank Token",
-        "description": "## 🎯 Получение токена для работы с API банка\n\n**Этот endpoint - точка входа для всех участников хакатона!**\n\nТокен выдается банком, У КОТОРОГО вы запрашиваете данные.\nКаждый банк подписывает токен своим приватным ключом (RS256).\n\n### Где взять credentials?\n\nПолучите у организаторов хакатона:\n- `client_id` — код вашей команды (например: team200)\n- `client_secret` — ваш секретный ключ (API key)\n\n### Пример запроса:\n\n```bash\n# Получить токен для запросов к VBank\nPOST https://vbank.open.bankingapi.ru/auth/bank-token\n?client_id=team200\n&client_secret=5OAaa4DYzYKfnOU6zbR34ic5qMm7VSMB\n\n# Ответ:\n{\n  \"access_token\": \"eyJ...\",\n  \"token_type\": \"bearer\",\n  \"client_id\": \"team200\",\n  \"expires_in\": 86400\n}\n```\n\n### Использование токена:\n\n```bash\nGET https://vbank.open.bankingapi.ru/accounts\nHeaders:\n  Authorization: Bearer eyJ...\n```\n\n### Важно:\n\n- Токен валиден 24 часа\n- Для каждого банка нужен свой токен (VBank, ABank, SBank)\n- Токен подписан приватным ключом банка (RS256)\n- Публичный ключ: `/.well-known/jwks.json`\n\n### Межбанковые запросы:\n\nДля получения данных клиента из другого банка добавьте:\n```\nX-Requesting-Bank: your_client_id\n```\nИ создайте согласие: `POST /account-consents`",
+        "description": "## 🎯 Получение токена для работы с API банка\n\n**Этот endpoint - точка входа для всех участников хакатона!**\n\nТокен выдается банком, У КОТОРОГО вы запрашиваете данные.\nКаждый банк подписывает токен своим приватным ключом (RS256).\n\n### Где взять credentials?\n\nПолучите у организаторов хакатона:\n- `client_id` — код вашей команды (например: team200)\n- `client_secret` — ваш секретный ключ (API key)\n\n### Пример запроса:\n\n```bash\n# Получить токен для запросов к VBank\nPOST https://vbank.open.bankingapi.ru/auth/bank-token\n?client_id=team200\n&client_secret=YOUR_SECRET\n\n# Ответ:\n{\n  \"access_token\": \"eyJ...\",\n  \"token_type\": \"bearer\",\n  \"client_id\": \"team200\",\n  \"expires_in\": 86400\n}\n```\n\n### Использование токена:\n\n```bash\nGET https://vbank.open.bankingapi.ru/accounts\nHeaders:\n  Authorization: Bearer eyJ...\n```\n\n### Важно:\n\n- Токен валиден 24 часа\n- Для каждого банка нужен свой токен (VBank, ABank, SBank)\n- Токен подписан приватным ключом банка (RS256)\n- Публичный ключ: `/.well-known/jwks.json`\n\n### Межбанковые запросы:\n\nДля получения данных клиента из другого банка добавьте:\n```\nX-Requesting-Bank: your_client_id\n```\nИ создайте согласие: `POST /account-consents`",
         "operationId": "create_bank_token_auth_bank_token_post",
         "parameters": [
           {
@@ -37,7 +37,7 @@
               "title": "Client Secret"
             },
             "description": "Secret команды от организаторов",
-            "example": "5OAaa4DYzYKfnOU6zbR34ic5qMm7VSMB"
+            "example": "YOUR_SECRET"
           }
         ],
         "responses": {

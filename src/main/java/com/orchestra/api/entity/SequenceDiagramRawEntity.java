@@ -1,7 +1,11 @@
-// src/main/java/com/orchestra/api/entity/SequenceDiagramRawEntity.java
 package com.orchestra.api.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -12,8 +16,7 @@ public class SequenceDiagramRawEntity {
     private UUID id;
 
     private String name;
-
-    private String format; // PLANTUML | MERMAID | CMMN
+    private String format;
 
     @Lob
     @Column(name = "raw_content", nullable = false)
@@ -23,7 +26,6 @@ public class SequenceDiagramRawEntity {
 
     public SequenceDiagramRawEntity() {}
 
-    // getters/setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
     public String getName() { return name; }

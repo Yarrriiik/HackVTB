@@ -1,5 +1,11 @@
 package com.orchestra.api.entity;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 import java.util.UUID;
 
 @Entity
@@ -23,10 +29,12 @@ public class ProcessTransitionEntity {
 
     public ProcessTransitionEntity() {}
 
-    public ProcessTransitionEntity(UUID id,
-                                   ProcessDiagramEntity diagram,
-                                   ProcessStepEntity fromStep,
-                                   ProcessStepEntity toStep) {
+    public ProcessTransitionEntity(
+            UUID id,
+            ProcessDiagramEntity diagram,
+            ProcessStepEntity fromStep,
+            ProcessStepEntity toStep
+    ) {
         this.id = id;
         this.diagram = diagram;
         this.fromStep = fromStep;
@@ -35,18 +43,11 @@ public class ProcessTransitionEntity {
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
-
     public ProcessDiagramEntity getDiagram() { return diagram; }
     public void setDiagram(ProcessDiagramEntity diagram) { this.diagram = diagram; }
-
     public ProcessStepEntity getFromStep() { return fromStep; }
     public void setFromStep(ProcessStepEntity fromStep) { this.fromStep = fromStep; }
-
     public ProcessStepEntity getToStep() { return toStep; }
     public void setToStep(ProcessStepEntity toStep) { this.toStep = toStep; }
-
-    public String getCondition() {
-        // TODO: implement condition field if needed
-        return null;
-    }
+    public String getCondition() { return null; }
 }

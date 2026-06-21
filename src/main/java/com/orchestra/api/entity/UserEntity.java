@@ -1,11 +1,16 @@
 package com.orchestra.api.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-// UserEntity.java
 @Entity
 @Table(name = "users")
 @Access(AccessType.FIELD)
@@ -15,7 +20,11 @@ public class UserEntity {
     private UUID id;
 
     @PrePersist
-    public void prePersist() { if (id == null) id = UUID.randomUUID(); }
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+    }
 
     private String name;
 
@@ -28,7 +37,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
 
-    // убрано name="created_at" — стратегия сама сопоставит createdAt -> created_at
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public UUID getId() { return id; }
@@ -45,4 +53,3 @@ public class UserEntity {
     public void setRole(String role) { this.role = role; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
-

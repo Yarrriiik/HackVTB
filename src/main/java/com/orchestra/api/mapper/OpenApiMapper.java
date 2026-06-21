@@ -6,7 +6,10 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class OpenApiMapper {
@@ -16,114 +19,142 @@ public class OpenApiMapper {
             throw new IllegalArgumentException("No paths found in OpenAPI spec");
         }
 
-        // Группируем операции по пути, чтобы не перетирать методы одного path
         Map<String, Map<String, OpenApiUploadResponse.Item>> byPath = new LinkedHashMap<>();
-
         openAPI.getPaths().forEach((path, pathItem) -> {
-            if (pathItem == null || pathItem.readOperationsMap() == null) return;
-            Map<String, OpenApiUploadResponse.Item> methods = byPath.computeIfAbsent(path, k -> new LinkedHashMap<>());
+            if (pathItem == null || pathItem.readOperationsMap() == null) {
+                return;
+            }
 
-            pathItem.readOperationsMap().forEach((method, op) -> {
-                if (op == null) return;
-                OpenApiUploadResponse.Item it = new OpenApiUploadResponse.Item();
-                it.method = method.name();
-                it.requestSchema = extractRequestSchema(op, openAPI);
-                it.responses = extractResponses(op);
-                methods.put(method.name(), it);
+            Map<String, OpenApiUploadResponse.Item> methods =
+                    byPath.computeIfAbsent(path, key -> new LinkedHashMap<>());
+
+            pathItem.readOperationsMap().forEach((method, operation) -> {
+                if (operation == null) {
+                    return;
+                }
+
+                OpenApiUploadResponse.Item item = new OpenApiUploadResponse.Item();
+                item.method = method.name();
+                item.requestSchema = extractRequestSchema(operation, openAPI);
+                item.responses = extractResponses(operation);
+                methods.put(method.name(), item);
             });
         });
 
-        // Если твой DTO пока плоский (Map<String, Item>), оставим backward-compatible фолбэк:
-        // выбираем приоритетный метод per path (POST > PUT > GET > DELETE > прочие)
         List<String> priority = List.of("POST", "PUT", "GET", "DELETE", "PATCH", "OPTIONS", "HEAD");
         Map<String, OpenApiUploadResponse.Item> flat = new LinkedHashMap<>();
         byPath.forEach((path, methods) -> {
             OpenApiUploadResponse.Item chosen = null;
-            for (String m : priority) { if (methods.containsKey(m)) { chosen = methods.get(m); break; } }
-            if (chosen == null && !methods.isEmpty()) { chosen = methods.values().iterator().next(); }
-            if (chosen != null) flat.put(path, chosen);
+            for (String method : priority) {
+                if (methods.containsKey(method)) {
+                    chosen = methods.get(method);
+                    break;
+                }
+            }
+            if (chosen == null && !methods.isEmpty()) {
+                chosen = methods.values().iterator().next();
+            }
+            if (chosen != null) {
+                flat.put(path, chosen);
+            }
         });
 
-        OpenApiUploadResponse resp = new OpenApiUploadResponse();
-        resp.setId(id);
-        // Если уже изменили контракт — можно положить byPath; иначе кладём flat
-        resp.setApiList(flat);
-        return resp;
+        OpenApiUploadResponse response = new OpenApiUploadResponse();
+        response.setId(id);
+        response.setApiList(flat);
+        return response;
     }
 
-    private Map<String, Object> extractRequestSchema(Operation op, OpenAPI api) {
+    private Map<String, Object> extractRequestSchema(Operation operation, OpenAPI openAPI) {
         Map<String, Object> schema = new LinkedHashMap<>();
-        if (op.getRequestBody() == null || op.getRequestBody().getContent() == null) return schema;
+        if (operation.getRequestBody() == null || operation.getRequestBody().getContent() == null) {
+            return schema;
+        }
 
-        // Берём application/json, иначе первый доступный content
-        Schema<?> s = null;
-        if (op.getRequestBody().getContent().get("application/json") != null) {
-            s = op.getRequestBody().getContent().get("application/json").getSchema();
+        Schema<?> requestSchema = null;
+        if (operation.getRequestBody().getContent().get("application/json") != null) {
+            requestSchema = operation.getRequestBody().getContent().get("application/json").getSchema();
         }
-        if (s == null) {
-            var first = op.getRequestBody().getContent().values().stream().findFirst();
-            if (first.isPresent()) s = first.get().getSchema();
+        if (requestSchema == null) {
+            var firstContent = operation.getRequestBody().getContent().values().stream().findFirst();
+            if (firstContent.isPresent()) {
+                requestSchema = firstContent.get().getSchema();
+            }
         }
-        if (s != null) schema.putAll(flattenSchema(s, api));
+        if (requestSchema != null) {
+            schema.putAll(flattenSchema(requestSchema, openAPI));
+        }
         return schema;
     }
 
-    private Map<String, String> extractResponses(Operation op) {
-        Map<String, String> res = new LinkedHashMap<>();
-        if (op.getResponses() == null) return res;
-        op.getResponses().forEach((code, r) -> res.put(code, r != null && r.getDescription() != null ? r.getDescription() : ""));
-        return res;
+    private Map<String, String> extractResponses(Operation operation) {
+        Map<String, String> responses = new LinkedHashMap<>();
+        if (operation.getResponses() == null) {
+            return responses;
+        }
+        operation.getResponses().forEach((code, response) ->
+                responses.put(code, response != null && response.getDescription() != null ? response.getDescription() : "")
+        );
+        return responses;
     }
 
-    // Упрощённое «безопасное» разворачивание
-    private Map<String, Object> flattenSchema(Schema<?> s, OpenAPI api) {
-        Map<String, Object> out = new LinkedHashMap<>();
-        if (s == null) return out;
+    private Map<String, Object> flattenSchema(Schema<?> schema, OpenAPI openAPI) {
+        Map<String, Object> output = new LinkedHashMap<>();
+        if (schema == null) {
+            return output;
+        }
 
-        // $ref: пишем ref и, если удаётся, тип целевой схемы
-        if (s.get$ref() != null) {
-            out.put("$ref", s.get$ref());
-            String name = s.get$ref().substring(s.get$ref().lastIndexOf('/') + 1);
-            if (api != null && api.getComponents() != null && api.getComponents().getSchemas() != null) {
-                Schema<?> target = api.getComponents().getSchemas().get(name);
-                if (target != null && target.getType() != null) out.put("type", target.getType());
+        if (schema.get$ref() != null) {
+            output.put("$ref", schema.get$ref());
+            String name = schema.get$ref().substring(schema.get$ref().lastIndexOf('/') + 1);
+            if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
+                Schema<?> target = openAPI.getComponents().getSchemas().get(name);
+                if (target != null && target.getType() != null) {
+                    output.put("type", target.getType());
+                }
             }
-            return out;
+            return output;
         }
 
-        // Массив
-        if (s instanceof io.swagger.v3.oas.models.media.ArraySchema arr) {
-            Map<String, Object> items = flattenSchema(arr.getItems(), api);
-            out.put("type", "array");
-            if (!items.isEmpty()) out.put("items", items);
-            return out;
+        if (schema instanceof io.swagger.v3.oas.models.media.ArraySchema arraySchema) {
+            Map<String, Object> items = flattenSchema(arraySchema.getItems(), openAPI);
+            output.put("type", "array");
+            if (!items.isEmpty()) {
+                output.put("items", items);
+            }
+            return output;
         }
 
-        // Объект с properties
-        if (s.getProperties() != null && !s.getProperties().isEmpty()) {
-            s.getProperties().forEach((k, v) -> {
-                Map<String, Object> sub = flattenSchema((Schema<?>) v, api);
-                // если ничего не извлекли, хотя бы type/null
-                if (sub.isEmpty() && v.getType() != null) sub.put("type", v.getType());
-                out.put(k, sub.isEmpty() ? (v.getType() != null ? v.getType() : "object") : sub);
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            schema.getProperties().forEach((key, value) -> {
+                Map<String, Object> child = flattenSchema((Schema<?>) value, openAPI);
+                if (child.isEmpty() && value.getType() != null) {
+                    child.put("type", value.getType());
+                }
+                output.put(key, child.isEmpty() ? (value.getType() != null ? value.getType() : "object") : child);
             });
-            return out;
+            return output;
         }
 
-        // oneOf/anyOf/allOf (3.0/3.1)
-        if (s instanceof io.swagger.v3.oas.models.media.ComposedSchema comp) {
-            if (comp.getOneOf() != null && !comp.getOneOf().isEmpty())
-                out.put("oneOf", comp.getOneOf().stream().map(x -> flattenSchema(x, api)).toList());
-            if (comp.getAnyOf() != null && !comp.getAnyOf().isEmpty())
-                out.put("anyOf", comp.getAnyOf().stream().map(x -> flattenSchema(x, api)).toList());
-            if (comp.getAllOf() != null && !comp.getAllOf().isEmpty())
-                out.put("allOf", comp.getAllOf().stream().map(x -> flattenSchema(x, api)).toList());
-            if (s.getType() != null) out.putIfAbsent("type", s.getType());
-            return out;
+        if (schema instanceof io.swagger.v3.oas.models.media.ComposedSchema composedSchema) {
+            if (composedSchema.getOneOf() != null && !composedSchema.getOneOf().isEmpty()) {
+                output.put("oneOf", composedSchema.getOneOf().stream().map(item -> flattenSchema(item, openAPI)).toList());
+            }
+            if (composedSchema.getAnyOf() != null && !composedSchema.getAnyOf().isEmpty()) {
+                output.put("anyOf", composedSchema.getAnyOf().stream().map(item -> flattenSchema(item, openAPI)).toList());
+            }
+            if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
+                output.put("allOf", composedSchema.getAllOf().stream().map(item -> flattenSchema(item, openAPI)).toList());
+            }
+            if (schema.getType() != null) {
+                output.putIfAbsent("type", schema.getType());
+            }
+            return output;
         }
 
-        // Базовый случай
-        if (s.getType() != null) out.put("type", s.getType());
-        return out;
+        if (schema.getType() != null) {
+            output.put("type", schema.getType());
+        }
+        return output;
     }
 }

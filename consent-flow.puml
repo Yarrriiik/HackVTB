@@ -1,0 +1,44 @@
+@startuml consent-flow
+!theme cerulean-outline
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam sequenceMessageAlign center
+skinparam BoxPadding 20
+skinparam ParticipantPadding 20
+
+title Cross-bank consent flow
+
+actor "Client App" as App #LightBlue
+participant "Bank API" as Bank #ADD8E6
+actor "Customer" as Customer #LightYellow
+
+== Simplified prototype scenario ==
+
+note over App, Customer #LightYellow
+  This diagram documents a demo consent flow
+  used to explain the hackathon prototype idea.
+  Identifiers and credentials are placeholders.
+end note
+
+App -> Bank: 1. POST /auth/bank-token\nclient_id=demo-team\nclient_secret=***
+activate Bank
+Bank --> App: 200 OK\n{ access_token: "demo-token" }
+deactivate Bank
+
+App -> Bank: 2. POST /account-consents/request\nAuthorization: Bearer {token}\nX-Requesting-Bank: demo-team
+activate Bank
+Bank --> App: 200 OK\n{ consent_id: "consent-demo", status: "approved" }
+deactivate Bank
+
+App -> Bank: 3. GET /accounts\nclient_id=demo-customer\nAuthorization: Bearer {token}\nX-Consent-Id: consent-demo
+activate Bank
+Bank --> App: 200 OK\n{ accounts: [...] }
+deactivate Bank
+
+note over App, Bank #LightGreen
+  The public repository keeps this flow as
+  an explanatory artifact, not as a full banking product implementation.
+end note
+
+@enduml

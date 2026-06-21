@@ -1,4 +1,5 @@
 package com.orchestra.api.dto.response;
+
 import java.time.LocalDateTime;
 
 public class ApiResponse<T> {
@@ -7,7 +8,6 @@ public class ApiResponse<T> {
     private T data;
     private LocalDateTime timestamp;
 
-    // Геттеры
     public boolean isSuccess() { return success; }
     public String getMessage() { return message; }
     public T getData() { return data; }

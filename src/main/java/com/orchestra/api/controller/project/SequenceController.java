@@ -18,7 +18,7 @@ public class SequenceController {
 
     public SequenceController(SequenceService service) { this.service = service; }
 
-    @PostMapping(value = "/uploadSequence", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = {"/uploadSequence", "/upload"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SequenceDiagramResponse> upload(
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "name", required = false) String name,
